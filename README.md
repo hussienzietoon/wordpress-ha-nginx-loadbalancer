@@ -34,7 +34,7 @@ This setup deploys two WordPress instances behind an Nginx load balancer on Ubun
    GRANT ALL PRIVILEGES ON wp1_db.* TO 'wp_user'@'172.31.30.105';
 
    CREATE USER 'wp_user'@'172.31.21.147' IDENTIFIED BY 'wp_pass'; -- WP2
-   GRANT ALL PRIVILEGES ON wp2_db.* TO 'wp_user'@'172.31.21.147';
+   GRANT ALL PRIVILEGES ON wp1_db.* TO 'wp_user'@'172.31.21.147'; -- Both use wp1_db
 
    FLUSH PRIVILEGES;
    ```
@@ -85,10 +85,10 @@ This setup deploys two WordPress instances behind an Nginx load balancer on Ubun
    sudo chown -R www-data:www-data /var/www/html/wp1
    sudo chmod -R 755 /var/www/html/wp1
 
-   cd /var/www/html/wp1
+   cd /var/www/html/wp1 # Use wp2 on the second instance
    sudo cp wp-config-sample.php wp-config.php
    sudo nano wp-config.php
-   # Edit the following lines:
+   # Edit the following lines (Use 'wp1_db' on BOTH wp1 and wp2):
    define('DB_NAME', 'wp1_db');
    define('DB_USER', 'wp_user');
    define('DB_PASSWORD', 'wp_pass');
